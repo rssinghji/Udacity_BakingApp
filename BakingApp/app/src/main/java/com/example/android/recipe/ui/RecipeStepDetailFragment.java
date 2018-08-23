@@ -53,6 +53,8 @@ public class RecipeStepDetailFragment extends Fragment  {
     String recipeName;
     long defaultPosition = 0;
     private static final String PLAYER_POSITION_KEY = "playerPosition";
+    boolean bDefaultPlayWhenReadyStatus = true;
+    private static final String PLAY_PAUSE_STATUS = "PLAY_PAUSE_STATUS";
 
     public RecipeStepDetailFragment() {
 
@@ -79,6 +81,7 @@ public class RecipeStepDetailFragment extends Fragment  {
             selectedIndex = savedInstanceState.getInt(SELECTED_INDEX);
             recipeName = savedInstanceState.getString("Title");
             defaultPosition = savedInstanceState.getLong(PLAYER_POSITION_KEY);
+            bDefaultPlayWhenReadyStatus = savedInstanceState.getBoolean(PLAY_PAUSE_STATUS);
         }
         else {
             steps =getArguments().getParcelableArrayList(SELECTED_STEPS);
@@ -191,9 +194,9 @@ public class RecipeStepDetailFragment extends Fragment  {
             String userAgent = Util.getUserAgent(getContext(), "Baking App");
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
             player.prepare(mediaSource);
-            player.setPlayWhenReady(true);
         }
         player.seekTo(defaultPosition);
+        player.setPlayWhenReady(bDefaultPlayWhenReadyStatus);
     }
 
     @Override
@@ -203,6 +206,7 @@ public class RecipeStepDetailFragment extends Fragment  {
         currentState.putInt(SELECTED_INDEX,selectedIndex);
         currentState.putString("Title",recipeName);
         currentState.putLong(PLAYER_POSITION_KEY, player.getCurrentPosition());
+        currentState.putBoolean(PLAY_PAUSE_STATUS, player.getPlayWhenReady());
     }
 
     public boolean isInLandscapeMode( Context context ) {
