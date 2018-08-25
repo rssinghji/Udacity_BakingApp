@@ -205,8 +205,10 @@ public class RecipeStepDetailFragment extends Fragment  {
         currentState.putParcelableArrayList(SELECTED_STEPS,steps);
         currentState.putInt(SELECTED_INDEX,selectedIndex);
         currentState.putString("Title",recipeName);
-        currentState.putLong(PLAYER_POSITION_KEY, player.getCurrentPosition());
-        currentState.putBoolean(PLAY_PAUSE_STATUS, player.getPlayWhenReady());
+        if(player != null) {
+            currentState.putLong(PLAYER_POSITION_KEY, player.getCurrentPosition());
+            currentState.putBoolean(PLAY_PAUSE_STATUS, player.getPlayWhenReady());
+        }
     }
 
     public boolean isInLandscapeMode( Context context ) {
